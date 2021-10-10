@@ -1,3 +1,4 @@
+//this is older version, just for back up, ignore
 console.log("This is consumer ...");
 
 const { Kafka } = require('kafkajs')

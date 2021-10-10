@@ -1,33 +1,38 @@
+//this is older version, just for back up, ignore
 console.log("This is producer ...");
 
 const { Kafka } = require('kafkajs');
 
 const kafka = new Kafka({
   clientId: 'my-app',
-  brokers: ['localhost:9093']
+  brokers: ['localhost:9092']
 });
 
 let count = 0;
 
 const producer = kafka.producer();
 
-const main = async () => {
+run();
+setInterval(run, 3000);
+
+async function run() {
 
     try {
         await producer.connect();
         
         const responses = await producer.send({
-            topic: 'test1', 
+            topic: 'test', 
             messages: [
                 { value: `Send ${(++count)} messages`},
             ],
         });
     
-        console.log('Published message', { responses })
+        console.log('Published message', { responses });
+
+        //await producer.disconnect();
     } catch (error) {
-        console.error('Error publishing message', error)
-        process.exit(1)
+        console.error('Error publishing message', error);
+        await producer.disconnect();
+        process.exit(1);
     }
 }
-
-setInterval(main, 3000)
