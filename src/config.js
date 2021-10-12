@@ -6,8 +6,8 @@ require('./env_setup')
 const server = { port: process.env.PORT || 3000 };
 
 const kafka = {
-  clientId: "npm-slack-notifier",
-  brokers: [process.env.BOOTSTRAP_BROKER || "localhost:9092"],
+  clientId: 'parakafka',
+  brokers: ['localhost:9092', 'localhost:9093'],
   ssl: process.env.KAFKA_SSL ? JSON.parse(process.env.KAFKA_SSL) : false,
   sasl:
     process.env.KAFKA_USERNAME && process.env.KAFKA_PASSWORD
@@ -20,13 +20,17 @@ const kafka = {
 };
 
 const consumer = {
-  groupId: process.env.KAFKA_GROUP_ID || "npm-slack-notifier",
+  groupId: process.env.KAFKA_GROUP_ID || 'parakafka',
 };
+
+const producer = {
+  // TODO: to fill this with settings
+}
 
 const app = {
   secret: process.env.HOOK_SECRET,
-  topic: process.env.TOPIC || "npm-package-published",
-  mount: "/hook",
+  topic: process.env.TOPIC || 'test-topic',
+  mount: '/hook',
 };
 
 const processor = {
@@ -43,9 +47,3 @@ module.exports = {
   processor,
   logger,
 };
-
-
-
-
-
-

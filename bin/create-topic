@@ -4,7 +4,7 @@ const path = require('path')
 const { Kafka } = require('kafkajs')
 
 const config = {
-    clientId: 'npm-slack-notifier-admin',
+    clientId: 'parakafka-admin',
     brokers: [process.env.BOOTSTRAP_BROKER || 'localhost:9092'],
     ssl: process.env.KAFKA_SSL ? JSON.parse(process.env.KAFKA_SSL) : false,
     sasl: process.env.KAFKA_USERNAME && process.env.KAFKA_PASSWORD ? {

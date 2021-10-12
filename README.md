@@ -31,7 +31,7 @@
 **The bin folder contains some binary runtime to help testing**
 
 **Example code to run in CLI:** `./bin/<function> <arguments>*`, some functions below:
-1. Create topic (dont need this) `./bin/create-topic "npm-package-published" 3`
+1. Create topic (dont need this) `./bin/create-topic "test-topic" 3`
 2. Send message! `send-event <url> <secret> <payload_path>` 
      
      - Ex: `./bin/send-event http://localhost:3000/hook "<hook-secret>" ./resource/test_payload.json`

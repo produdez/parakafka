@@ -10,14 +10,10 @@ module.exports = async ({ kafka, config }) => {
   await consumer.subscribe({ topic: config.app.topic, fromBeginning: true });
 
   await consumer.run({
-    eachMessage: async ({ message }) => {
-      const { package, version } = JSON.parse(message.value.toString());
-
-      const text = `I fucking did it :v`;
-
+    eachMessage: async ({ topic, partition, message }) => {
       var today = new Date();
       var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-      logger.info(['MESSAGE: ', text, '- UserName: ', 'Long dep trai','- Time: ', time].join(''))
+      logger.info(`Consumer received message ${message.value.toString()} on topic ${topic}`)
     },
   });
 

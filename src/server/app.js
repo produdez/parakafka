@@ -33,7 +33,7 @@ module.exports = ({ producer, config }) => {
           ],
         });
       } catch (error) {
-        logger.error(`Failed to publish webhook message` + error);
+        logger.error(`Failed to publish webhook message`, error);
       }
     }
   );
@@ -41,11 +41,9 @@ module.exports = ({ producer, config }) => {
   server.on(
     'hook:error',
     (message) => {
-      logger.error('Hook receive Error: ' + message)
+      logger.error('Hook receive Error: ', message)
     }
   )
   
   return server;
 };
-
-

@@ -11,7 +11,7 @@ Just use logger.log(<level>, <message>) or
 */
 
 const myFormat = printf(({ level, message, timestamp }) => {
-  return `${level_label[level]}  ${timestamp}:  ${message}`;
+  return `${level_label[level]}  ${timestamp}:  ${message}` ;
 });
 
 const level_label = { 
@@ -20,8 +20,8 @@ const level_label = {
   'info': '🗒️', 
   'http': '🌐',
   'verbose': '👋', 
-  'debug': '🐛', 
-  'silly': '🤡' 
+  'debug': '🚫', 
+  'silly': '🤡' ,
 }
 
 const logger = winston.createLogger({
@@ -34,5 +34,12 @@ const logger = winston.createLogger({
     ),
 });
 
-module.exports = logger;
+logger.error = function(str,err) {
+  if (err instanceof Error) {
+    logger.log({ level: 'error', message: str + `\n${err.stack || err}` });
+  } else {
+    logger.log({ level: 'error', message: str + `${err}`});
+  }
+};
 
+module.exports = logger;
