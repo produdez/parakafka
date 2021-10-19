@@ -7,4 +7,6 @@
   - docker build . -f docker/server/Dockerfile -t parakafka/server
 
 - Run server
-  - docker run --name=parakafka_producer --net=host parakafka/server
+  - docker run --name=parakafka_server --net=host parakafka/server
+  - NOTE: net can be of many kinds: custom/bridge/host/none/overlay
+  - Current custom network for kafka cluster is `parakafka_kafka-net` (not a typo :v)
