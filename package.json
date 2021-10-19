@@ -12,7 +12,6 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@slack/webhook": "^5.0.3",
     "dotenv": "^10.0.0",
     "kafkajs": "^1.14.0",
     "npm-hook-receiver": "^1.0.0",

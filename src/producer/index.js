@@ -1,14 +1,13 @@
-const { Kafka } = require("kafkajs");
-const { IncomingWebhook } = require("@slack/webhook");
 const config = require("../config");
 const logger = config.logger;
 const createProducer = require("./producer");
 
-const kafka = new Kafka(config.kafka);
+// Not needed since producer uses web-hook and know nothing about kafka
+// const { Kafka } = require("kafkajs");
+// const kafka = new Kafka(config.kafka);
 
 const main = async () => {
-
-  const consumer = await createProducer({ kafka, config });
+  const consumer = await createProducer({ config: config.producer });
   logger.info('Producer Connected!')
 
   const shutdown = async () => {

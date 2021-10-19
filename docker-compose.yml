@@ -2,6 +2,8 @@
 version: '2'
 services:
   zookeeper:
+    networks:
+      - kafka-net
     image: confluentinc/cp-zookeeper:5.0.0
     container_name: zookeeper
     environment:
@@ -9,6 +11,8 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
 
   kafka:
+    networks:
+      - kafka-net
     image: confluentinc/cp-kafka:5.0.0
     container_name: kafka
     labels:
@@ -30,6 +34,8 @@ services:
       CONFLUENT_SUPPORT_METRICS_ENABLE: 'false'
   
   kafka1:
+    networks:
+      - kafka-net
     image: confluentinc/cp-kafka:5.0.0
     container_name: kafka1
     labels:
@@ -51,6 +57,8 @@ services:
       CONFLUENT_SUPPORT_METRICS_ENABLE: 'false'
 
   kafka2:
+    networks:
+      - kafka-net
     image: confluentinc/cp-kafka:5.0.0
     container_name: kafka2
     labels:
@@ -70,8 +78,31 @@ services:
       KAFKA_LOG4J_ROOT_LOGLEVEL: INFO
       KAFKA_LOG4J_LOGGERS: 'kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO'
       CONFLUENT_SUPPORT_METRICS_ENABLE: 'false'
+  
+  web-hook-server:
+    networks:
+      - kafka-net
+    build: 
+      context: .
+      dockerfile: ./docker/server/Dockerfile
+      args:
+        tag: parakafka/server
+        progress: plain
 
+    container_name: web-hook-server
+    depends_on:
+      - zookeeper
+      - kafka
+      - kafka1
+      - kafka2
+    ports:
+      - "3000:3000"
+    restart: always
+    environment:
+      - BOOTSTRAP_BROKERS=kafka:29092 kafka1:29092 kafka2:29092
   kafka-ui:
+    networks:
+      - kafka-net
     image: provectuslabs/kafka-ui
     container_name: kafka-ui
     depends_on:
@@ -87,3 +118,7 @@ services:
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092, kafka1:29092, kafka2:29092
       KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
       KAFKA_CLUSTERS_0_READONLY: 'false'
+
+networks:
+  kafka-net:
+    driver: bridge

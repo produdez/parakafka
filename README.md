@@ -56,3 +56,6 @@ Use send message function to test for now, have not make producer code yet
 3. Add Producer
 4. Multi-thread producer
 5. Multi-thread consumer
+
+# TODO (update 19/10)
+- Reduce the size of producer dockerfile by trimming kafka

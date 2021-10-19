@@ -1,14 +1,9 @@
 { 
   "event": "package:publish",
-  "name": "@kafkajs/zstd",
+  "sender": "Produdez",
   "type": "package",
-  "version": "1.0.0",
-  "hookOwner": { "username": "nevon"},
-  "payload": {
-      "name": "@kafkajs/zstd"
-  },
-  "change": {
-      "version": "1.0.0"
-  },
-  "time": 1603444214995
+  "hookOwner": { "username": "produdez"},
+  "topic": "test-topic",
+  "data": 1,
+  "timestamp": 1603444214995
 }

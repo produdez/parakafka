@@ -8,36 +8,25 @@ module.exports = ({ producer, config }) => {
     secret: config.secret,
     mount: config.mount,
   });
+  logger.info(`Server secret: ${config.secret}`)
 
   server.on(
     "package:publish",
-    async ({ name: package, version, time: timestamp }) => {
-      logger.info("Received webhook event", {
-        package,
-        version,
-        timestamp,
-      });
+    async (package) => {
+      logger.info(`Received webhook event: ${JSON.stringify(package)}`);
+
+      if(!package.topic) throw 'Package missing topic'
 
       try {
         await producer.send({
-          topic: config.topic,
-          messages: [
-            {
-              key: package,
-              value: JSON.stringify({
-                package,
-                version,
-                timestamp,
-              }),
-            },
-          ],
+          topic: package.topic,
+          messages: [ get_data(package) ],
         });
       } catch (error) {
         logger.error(`Failed to publish webhook message`, error);
       }
     }
   );
-
   server.on(
     'hook:error',
     (message) => {
@@ -47,3 +36,10 @@ module.exports = ({ producer, config }) => {
   
   return server;
 };
+
+function get_data(package){
+  return JSON.stringify({
+    'timestamp' : package.timestamp,
+    'data' : package.data,
+  })
+}
