@@ -1,5 +1,4 @@
 const { Kafka } = require("kafkajs");
-const { IncomingWebhook } = require("@slack/webhook");
 const config = require("../config");
 const logger = config.logger;
 const createConsumer = require("./consumer");

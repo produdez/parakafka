@@ -38,7 +38,19 @@
 
 Use send message function to test for now, have not make producer code yet
 
-
+## Run MongoDB
+### Install
+- `brew tap mongodb/brew`
+- `brew install mongodb-community@4.4`
+### Run
+Run and stop:
+- `brew services start mongodb-community@4.4`
+- `brew services stop mongodb-community@4.4`
+Connect to shell:
+- `mongo` binary file is needed
+- Could be downloaded from (follow page instruction)
+- [MongoDB-Doc](https://docs.mongodb.com/v4.4/reference/program/mongo/#mongodb-binary-bin.mongo)
+-> Also note that i use mac so your installation might differs
 ## Note:
 
 1. Logging tool is included, just require `logger` from `config` to log, read in tool folder
