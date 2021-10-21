@@ -32,7 +32,7 @@ services:
       KAFKA_LOG4J_ROOT_LOGLEVEL: INFO
       KAFKA_LOG4J_LOGGERS: 'kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO'
       CONFLUENT_SUPPORT_METRICS_ENABLE: 'false'
-  
+
   kafka1:
     networks:
       - kafka-net
@@ -78,11 +78,11 @@ services:
       KAFKA_LOG4J_ROOT_LOGLEVEL: INFO
       KAFKA_LOG4J_LOGGERS: 'kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO'
       CONFLUENT_SUPPORT_METRICS_ENABLE: 'false'
-  
+
   web-hook-server:
     networks:
       - kafka-net
-    build: 
+    build:
       context: .
       dockerfile: ./docker/server/Dockerfile
       args:
@@ -96,10 +96,37 @@ services:
       - kafka1
       - kafka2
     ports:
-      - "3000:3000"
+      - '3000:3000'
     restart: always
     environment:
       - BOOTSTRAP_BROKERS=kafka:29092 kafka1:29092 kafka2:29092
+
+  producer-hochiminh:
+    build:
+      context: .
+      dockerfile: ./docker/producer/Dockerfile
+      args:
+        tag: parakafka/producer
+        progress: plain
+    environment:
+      - PRODUCER_NAME=HO CHI MINH CITY
+    container_name: producer_hochiminh
+    restart: always
+    network_mode: host
+
+  producer-vungtau:
+    build:
+      context: .
+      dockerfile: ./docker/producer/Dockerfile
+      args:
+        tag: parakafka/producer
+        progress: plain
+    environment:
+      - PRODUCER_NAME=VUNG TAU PARADISE
+    container_name: producer_vungtau
+    restart: always
+    network_mode: host
+
   kafka-ui:
     networks:
       - kafka-net
@@ -111,7 +138,7 @@ services:
       - kafka2
       - zookeeper
     ports:
-      - "8080:8080"
+      - '8080:8080'
     restart: always
     environment:
       KAFKA_CLUSTERS_0_NAME: kafka
