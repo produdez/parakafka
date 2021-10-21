@@ -7,8 +7,8 @@ module.exports = async ({ config }) => {
 
   // send accumulated (+1) number w/ random interval [2000, 5000]
   return setInterval(() => {
-		send_data(config);
-	}, 3000);
+    send_data(config);
+  }, 3000);
 };
 
 async function send_data(config) {
@@ -19,12 +19,11 @@ async function send_data(config) {
       data: data,
       topic: config.topic,
       timestamp: Date.now(),
-      partition: 0, // why I just can send to partition 0...
 
       //the ones below are just needed for webhook sending
       event: 'package:publish',
       type: 'package',
-      hookOwner: { username: 'produdez' }
+      hookOwner: { username: 'produdez' },
     })
   );
 
@@ -40,7 +39,7 @@ async function send_data(config) {
 }
 
 function gen_data(producer_name) {
-  return `${producer_name} counts ${++count}`;
+  return JSON.stringify({ prod_name: producer_name, value: ++count });
 }
 
 const http = require('http');
@@ -62,9 +61,9 @@ async function send_data_to_web_hook(payload, url, secret) {
       {
         headers: {
           'Content-Type': 'application/json',
-          'x-npm-signature': `sha256=${signature}`
+          'x-npm-signature': `sha256=${signature}`,
         },
-        method: 'POST'
+        method: 'POST',
       },
       (res) => {
         if (res.statusCode >= 400) {

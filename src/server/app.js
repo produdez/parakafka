@@ -32,7 +32,6 @@ module.exports = ({ producer, config }) => {
 function get_data(package) {
   return {
     timestamp: package.timestamp,
-    value: `${package.data}`,
-    partition: package.partition,
+    value: `${package.data}`
   };
 }
