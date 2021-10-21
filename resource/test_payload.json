@@ -1,9 +1,12 @@
-{ 
+{
   "event": "package:publish",
   "sender": "Produdez",
   "type": "package",
-  "hookOwner": { "username": "produdez"},
+  "hookOwner": {
+    "username": "produdez"
+  },
   "topic": "test-topic",
+  "partition": 0,
   "data": 1,
   "timestamp": 1603444214995
 }
