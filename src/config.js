@@ -19,19 +19,19 @@ const kafka = {
       ? {
           username: process.env.KAFKA_USERNAME,
           password: process.env.KAFKA_PASSWORD,
-          mechanism: 'plain',
+          mechanism: 'plain'
         }
-      : null,
+      : null
 };
 
 const consumer = {
-  groupId: process.env.KAFKA_GROUP_ID || 'parakafka',
+  groupId: process.env.KAFKA_GROUP_ID || 'parakafka'
 };
 
 const app = {
   secret: process.env.HOOK_SECRET,
   topic: process.env.TOPIC || 'test-topic',
-  mount: '/hook',
+  mount: '/hook'
 };
 
 const hook_url =
@@ -41,11 +41,11 @@ const producer = {
   producer_name: process.env.PRODUCER_NAME,
   secret: app.secret,
   topic: app.topic,
-  url: hook_url,
+  url: hook_url
 };
 
 const processor = {
-  topic: app.topic,
+  topic: app.topic
 };
 
 const logger = require('./tools/winston_logger');
@@ -57,5 +57,5 @@ module.exports = {
   app,
   processor,
   producer,
-  logger,
+  logger
 };

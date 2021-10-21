@@ -28,7 +28,7 @@ async function send_data(config) {
       //the ones below are just needed for webhook sending
       event: 'package:publish',
       type: 'package',
-      hookOwner: { username: 'produdez' },
+      hookOwner: { username: 'produdez' }
     })
   );
 
@@ -72,9 +72,9 @@ async function send_data_to_web_hook(payload, url, secret) {
       {
         headers: {
           'Content-Type': 'application/json',
-          'x-npm-signature': `sha256=${signature}`,
+          'x-npm-signature': `sha256=${signature}`
         },
-        method: 'POST',
+        method: 'POST'
       },
       (res) => {
         if (res.statusCode >= 400) {
