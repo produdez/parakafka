@@ -6,13 +6,9 @@ module.exports = async ({ config }) => {
   logger.warn(`Creating Producer ${config.producer_name}`);
 
   // send accumulated (+1) number w/ random interval [2000, 5000]
-  var counter = 0;
-  const next_run = () => {
-    counter = randomInterval(2000, 10000, true);
-    send_data(config);
-    setTimeout(next_run, counter);
-  };
-  return setTimeout(next_run, counter);
+  return setInterval(() => {
+		send_data(config);
+	}, 3000);
 };
 
 async function send_data(config) {
@@ -45,12 +41,6 @@ async function send_data(config) {
 
 function gen_data(producer_name) {
   return `${producer_name} counts ${++count}`;
-}
-
-function randomInterval(min, max, log = false) {
-  const outputInteger = Math.floor(Math.random() * (max - min + 1)) + min;
-  if (log) logger.info(`Random interval generated: ${outputInteger}`);
-  return outputInteger;
 }
 
 const http = require('http');

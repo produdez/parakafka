@@ -17,7 +17,7 @@ const main = async () => {
   return shutdown;
 };
 
-const signalTraps = ['SIGTERM', 'SIGINT', 'SIGUSR2'];
+const signalTraps = ["SIGTERM", "SIGINT", "SIGUSR2"];
 
 main()
   .then(async (shutdown) => {
