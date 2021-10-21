@@ -1,5 +1,5 @@
 ---
-version: "2"
+version: '2'
 services:
   zookeeper:
     networks:
@@ -16,8 +16,8 @@ services:
     image: confluentinc/cp-kafka:5.0.0
     container_name: kafka
     labels:
-      - "custom.project=kafkajs-zstd"
-      - "custom.service=kafka"
+      - 'custom.project=kafkajs-zstd'
+      - 'custom.service=kafka'
     depends_on:
       - zookeeper
     ports:
@@ -30,8 +30,8 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_LOG4J_ROOT_LOGLEVEL: INFO
-      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
-      CONFLUENT_SUPPORT_METRICS_ENABLE: "false"
+      KAFKA_LOG4J_LOGGERS: 'kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO'
+      CONFLUENT_SUPPORT_METRICS_ENABLE: 'false'
 
   kafka1:
     networks:
@@ -39,8 +39,8 @@ services:
     image: confluentinc/cp-kafka:5.0.0
     container_name: kafka1
     labels:
-      - "custom.project=kafkajs-zstd"
-      - "custom.service=kafka1"
+      - 'custom.project=kafkajs-zstd'
+      - 'custom.service=kafka1'
     depends_on:
       - zookeeper
     ports:
@@ -53,8 +53,8 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_LOG4J_ROOT_LOGLEVEL: INFO
-      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
-      CONFLUENT_SUPPORT_METRICS_ENABLE: "false"
+      KAFKA_LOG4J_LOGGERS: 'kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO'
+      CONFLUENT_SUPPORT_METRICS_ENABLE: 'false'
 
   kafka2:
     networks:
@@ -62,8 +62,8 @@ services:
     image: confluentinc/cp-kafka:5.0.0
     container_name: kafka2
     labels:
-      - "custom.project=kafkajs-zstd"
-      - "custom.service=kafka2"
+      - 'custom.project=kafkajs-zstd'
+      - 'custom.service=kafka2'
     depends_on:
       - zookeeper
     ports:
@@ -76,8 +76,8 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_LOG4J_ROOT_LOGLEVEL: INFO
-      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
-      CONFLUENT_SUPPORT_METRICS_ENABLE: "false"
+      KAFKA_LOG4J_LOGGERS: 'kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO'
+      CONFLUENT_SUPPORT_METRICS_ENABLE: 'false'
 
   web-hook-server:
     networks:
@@ -96,7 +96,7 @@ services:
       - kafka1
       - kafka2
     ports:
-      - "3000:3000"
+      - '3000:3000'
     restart: always
     environment:
       - BOOTSTRAP_BROKERS=kafka:29092 kafka1:29092 kafka2:29092
@@ -113,7 +113,7 @@ services:
     container_name: producer_hochiminh
     restart: always
     network_mode: host
-  
+
   producer-vungtau:
     build:
       context: .
@@ -138,13 +138,13 @@ services:
       - kafka2
       - zookeeper
     ports:
-      - "8080:8080"
+      - '8080:8080'
     restart: always
     environment:
       KAFKA_CLUSTERS_0_NAME: kafka
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092, kafka1:29092, kafka2:29092
       KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
-      KAFKA_CLUSTERS_0_READONLY: "false"
+      KAFKA_CLUSTERS_0_READONLY: 'false'
 
 networks:
   kafka-net:
