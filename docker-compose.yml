@@ -101,31 +101,32 @@ services:
     environment:
       - BOOTSTRAP_BROKERS=kafka:29092 kafka1:29092 kafka2:29092
 
-  producer-hochiminh:
-    build:
-      context: .
-      dockerfile: ./docker/producer/Dockerfile
-      args:
-        tag: parakafka/producer
-        progress: plain
-    environment:
-      - PRODUCER_NAME=HO CHI MINH CITY
-    container_name: producer_hochiminh
-    restart: always
-    network_mode: host
+  # These guys need to be in another docker-compose
+  # producer-hochiminh:
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/producer/Dockerfile
+  #     args:
+  #       tag: parakafka/producer
+  #       progress: plain
+  #   environment:
+  #     - PRODUCER_NAME=HO CHI MINH CITY
+  #   container_name: producer_hochiminh
+  #   restart: always
+  #   network_mode: host
 
-  producer-vungtau:
-    build:
-      context: .
-      dockerfile: ./docker/producer/Dockerfile
-      args:
-        tag: parakafka/producer
-        progress: plain
-    environment:
-      - PRODUCER_NAME=VUNG TAU PARADISE
-    container_name: producer_vungtau
-    restart: always
-    network_mode: host
+  # producer-vungtau:
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/producer/Dockerfile
+  #     args:
+  #       tag: parakafka/producer
+  #       progress: plain
+  #   environment:
+  #     - PRODUCER_NAME=VUNG TAU PARADISE
+  #   container_name: producer_vungtau
+  #   restart: always
+  #   network_mode: host
 
   kafka-ui:
     networks:
