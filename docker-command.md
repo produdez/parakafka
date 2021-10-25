@@ -10,3 +10,6 @@
   - docker run --name=parakafka_server --net=host parakafka/server
   - NOTE: net can be of many kinds: custom/bridge/host/none/overlay
   - Current custom network for kafka cluster is `parakafka_kafka-net` (not a typo :v)
+
+- Run producer
+  - docker-compose -f docker-compose-producer.yml up
