@@ -1,0 +1,27 @@
+version: '2'
+services:
+  producer-1:
+    build:
+      context: .
+      dockerfile: ./docker/producer/Dockerfile
+      args:
+        tag: parakafka/producer
+        progress: plain
+    environment:
+      - PRODUCER_NAME=HO CHI MINH CITY
+    container_name: producer_1
+    restart: always
+    network_mode: host
+
+  producer-2:
+    build:
+      context: .
+      dockerfile: ./docker/producer/Dockerfile
+      args:
+        tag: parakafka/producer
+        progress: plain
+    environment:
+      - PRODUCER_NAME=VUNG TAU PARADISE
+    container_name: producer_2
+    restart: always
+    network_mode: host
