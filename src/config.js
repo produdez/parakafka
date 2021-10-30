@@ -24,6 +24,11 @@ const kafka = {
       : null,
 }
 
+const admin = {
+  numberOfPartitions: process.env.NUMBER_OF_PARTITION || 2,
+  replicationFactor: process.env.REPLICATION_FACTOR || 2,
+}
+
 const consumer = {
   groupId: process.env.KAFKA_GROUP_ID || 'parakafka',
 }
@@ -49,7 +54,7 @@ const processor = {
 }
 
 const db = {
-  uri: 'mongodb://localhost',
+  uri: process.env.MONGO_URL || 'mongodb://mongo',
   db_name: 'test',
   collection_name: 'test_collection',
 }
@@ -65,4 +70,5 @@ module.exports = {
   producer,
   db,
   logger,
+  admin,
 }

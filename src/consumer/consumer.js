@@ -10,7 +10,7 @@ module.exports = async ({ kafka, config }) => {
 
   await consumer.subscribe({ topic: config.app.topic, fromBeginning: true });
 
-  const {db, collection} = await connectDB()
+  const {db, collection} = await connectDB();
 
   await consumer.run({
     eachMessage: async ({ topic, partition, message }) => {
