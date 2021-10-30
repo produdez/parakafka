@@ -54,7 +54,7 @@ const processor = {
 }
 
 const db = {
-  uri: process.env.MONGO_URL || 'mongodb://mongo',
+  uri: process.env.MONGO_URL || 'mongodb://localhost',
   db_name: 'test',
   collection_name: 'test_collection',
 }
