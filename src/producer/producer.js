@@ -1,26 +1,28 @@
 const logger = require('../config').logger;
 
-let count = 0;
 
 module.exports = async ({ config }) => {
-  logger.warn(`Creating Producer ${config.producer_name}`);
+  const producer_interval = config.producer_interval
+  logger.warn(`Creating Producer ${config.producer_id}, data send interval is: ${producer_interval}`);
 
-  // send accumulated (+1) number w/ random interval [2000, 5000]
+  // * random number sent every interval
   return setInterval(() => {
     send_data(config);
-  }, 3000);
+  }, producer_interval);
 };
 
 async function send_data(config) {
-  data = gen_data(config.producer_name);
+  data = gen_data(config);
 
   payload = Buffer.from(
     JSON.stringify({
-      data: data,
+      // ! This is important for server to route to appropriate topic
       topic: config.topic,
-      timestamp: Date.now(),
 
-      //the ones below are just needed for webhook sending
+      // ! Here are important data
+      data: data,
+
+      // * These ones below are just needed for webhook sending
       event: 'package:publish',
       type: 'package',
       hookOwner: { username: 'produdez' },
@@ -30,7 +32,7 @@ async function send_data(config) {
   try {
     await send_data_to_web_hook(payload, config.url, config.secret);
     console.log(
-      `Produde ${config.producer_name} published webhook, topic: ${config.topic} with data: ${data}`
+      `Produde ${config.producer_id} published webhook, topic: ${config.topic} with data: ${data}`
     );
   } catch (error) {
     logger.error('Error publishing payload to webhook', error);
@@ -38,8 +40,21 @@ async function send_data(config) {
   }
 }
 
-function gen_data(producer_name) {
-  return JSON.stringify({ prod_name: producer_name, value: ++count });
+function gen_data(config){
+  return JSON.stringify({
+    data: random_normal_box_muller(),
+    timestamp_producer: Date.now(),
+    producer_id: config.producer_id,
+  })
+}
+
+// Standard Normal variate using Box-Muller transform.
+// Note that that mean is 0.5, not 0
+function random_normal_box_muller() {
+  var u = 0, v = 0;
+  while(u === 0) u = Math.random(); //Converting [0,1) to (0,1)
+  while(v === 0) v = Math.random();
+  return Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
 }
 
 const http = require('http');
