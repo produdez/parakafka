@@ -32,7 +32,7 @@ async function send_data(config) {
   try {
     await send_data_to_web_hook(payload, config.url, config.secret);
     console.log(
-      `Produde ${config.producer_id} published webhook, topic: ${config.topic} with data: ${data}`
+      `Produde ${config.producer_id} published webhook, topic: ${config.topic} with data: ${JSON.stringify(data)}`
     );
   } catch (error) {
     logger.error('Error publishing payload to webhook', error);
@@ -41,11 +41,11 @@ async function send_data(config) {
 }
 
 function gen_data(config){
-  return JSON.stringify({
+  return {
     data: random_normal_box_muller(),
     timestamp_producer: Date.now(),
     producer_id: config.producer_id,
-  })
+  }
 }
 
 // Standard Normal variate using Box-Muller transform.
