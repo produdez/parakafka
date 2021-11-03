@@ -13,6 +13,7 @@ services:
   kafka:
     networks:
       - kafka-net
+      - consumer-net
     image: confluentinc/cp-kafka:5.0.0
     container_name: kafka
     labels:
@@ -36,6 +37,7 @@ services:
   kafka1:
     networks:
       - kafka-net
+      - consumer-net
     image: confluentinc/cp-kafka:5.0.0
     container_name: kafka1
     labels:
@@ -59,6 +61,7 @@ services:
   kafka2:
     networks:
       - kafka-net
+      - consumer-net
     image: confluentinc/cp-kafka:5.0.0
     container_name: kafka2
     labels:
@@ -101,8 +104,6 @@ services:
     environment:
       - BOOTSTRAP_BROKERS=kafka:29092 kafka1:29092 kafka2:29092
 
-
-
   kafka-ui:
     networks:
       - kafka-net
@@ -122,6 +123,63 @@ services:
       KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
       KAFKA_CLUSTERS_0_READONLY: 'false'
 
+  admin:
+    build:
+      context: .
+      dockerfile: ./docker/admin/Dockerfile
+      args:
+        tag: parakafka/admin
+        progress: plain
+    container_name: admin
+    networks: 
+      - kafka-net 
+    environment:
+      - BOOTSTRAP_BROKERS=kafka:29092 kafka1:29092
+
+  mongo:
+    networks:
+      - consumer-net
+    image: mongo
+    ports:
+      - '27017:27017'
+    restart: always
+    container_name: mongo
+  
+  consumer:
+    build:
+      context: .
+      dockerfile: ./docker/consumer/Dockerfile
+      args:
+        tag: parakafka/consumer
+        progress: plain
+    container_name: consumer_1
+    restart: always
+    networks: 
+      - consumer-net
+    environment:
+      BOOTSTRAP_BROKERS: kafka:29092 kafka1:29092
+      KAFKA_GROUP_ID: test-group
+      MONGO_URL: mongodb://mongo
+  
+  consumer1:
+    build:
+      context: .
+      dockerfile: ./docker/consumer/Dockerfile
+      args:
+        tag: parakafka/consumer
+        progress: plain
+    container_name: consumer_2
+    restart: always
+    networks: 
+      - consumer-net
+    environment:
+      BOOTSTRAP_BROKERS: kafka:29092 kafka1:29092
+      KAFKA_GROUP_ID: test-group
+      MONGO_URL: mongodb://mongo
+
 networks:
   kafka-net:
+    driver: bridge
+  
+  consumer-net:
     driver: bridge

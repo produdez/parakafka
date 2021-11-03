@@ -13,3 +13,6 @@
 
 - Run producer
   - docker-compose -f docker-compose-producer.yml up
+
+- Rebuild some service in docker-compose
+  - docker-compose -f docker-compose.yml build
