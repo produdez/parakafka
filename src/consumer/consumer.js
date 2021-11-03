@@ -10,16 +10,19 @@ module.exports = async ({ kafka, config }) => {
 
   await consumer.subscribe({ topic: config.app.topic, fromBeginning: true });
 
-  const {db, collection} = await connectDB();
+  const {db, collection} = await connectDB()
 
   await consumer.run({
     eachMessage: async ({ topic, partition, message }) => {
-      var today = new Date();
-      var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-      logger.info(`Consumer received message ${message.value.toString()} on topic: ${topic} - partition: ${partition}`)
+      data = JSON.parse(message.value.toString())
+      logger.info(`Consumer received message ${JSON.stringify(data)} on topic: ${topic} - partition: ${partition}`)      // The data read from kafka will always be of type serialized, so we need to parse to correct type to write to DB
 
-      data = {time: time, data: message.value, topic: topic, partition: partition}
-      collection.insertOne(data)
+      let kafka_data = {topic: topic, partition: partition, timestamp_kafka: message.timestamp}
+      let consumer_data = {timestamp_db: Date.now()}
+      let producer_data = data
+
+      let merged = Object.assign({}, kafka_data, consumer_data, producer_data)
+      collection.insertOne(merged)
     },
   });
 
