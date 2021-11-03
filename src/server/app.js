@@ -31,7 +31,7 @@ module.exports = ({ producer, config }) => {
 
 function get_data(package) {
   return {
-    timestamp: package.timestamp,
-    value: `${package.data}`
+    timestamp: Date.now(),
+    value: JSON.stringify(package.data)
   };
 }
