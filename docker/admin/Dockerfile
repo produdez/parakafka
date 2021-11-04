@@ -1,13 +1,15 @@
 #! This has been integrated in docker compose to run along side kafka
 
 # Base
-FROM node:14
+# Use 12-alpine for smaller image size
+FROM node:12-alpine
 
 # work dir
 WORKDIR /app
 
 # packages and .ENV
-COPY package*.json .
+# use seperated package.json
+COPY ./resource/admin/package.json . 
 COPY .env .
 RUN npm install
 
