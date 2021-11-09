@@ -7,17 +7,17 @@ FROM node:14
 WORKDIR /app
 
 # packages and .ENV
-COPY package*.json .
-COPY .env .
+COPY package*.json ./
+COPY .env ./
 RUN npm install
 
 # tools
-COPY ./src/tools ./src/tools
+COPY ./src/tools ./src/tools/
 # all shared source files
-COPY ./src/*.* ./src
+COPY ./src/*.* ./src/
 
 # related source
-COPY ./src/admin ./src/admin
+COPY ./src/admin ./src/admin/
 
 # commands
 CMD ["node", "src/admin/index.js"]
