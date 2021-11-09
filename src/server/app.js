@@ -2,12 +2,11 @@ const createHookReceiver = require('npm-hook-receiver');
 const logger = require('../config').logger;
 
 module.exports = ({ producer, config }) => {
+  logger.info(`Server secret: ${config.secret}`);
   const server = createHookReceiver({
     secret: config.secret,
     mount: config.mount,
   });
-  logger.info(`Server secret: ${config.secret}`);
-
   server.on('package:publish', async (package) => {
     logger.info(`Received webhook event: ${JSON.stringify(package)}`);
 
