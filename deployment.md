@@ -17,7 +17,7 @@
 yum update -y
 ```
 
-### Git (ultra importance)
+### Git
 ```
 sudo yum -y install https://packages.endpoint.com/rhel/7/os/x86_64/endpoint-repo-1.9-1.x86_64.rpm
 
