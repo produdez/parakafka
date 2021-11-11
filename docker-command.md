@@ -16,3 +16,14 @@
 
 - Rebuild some service in docker-compose
   - docker-compose -f docker-compose.yml build
+
+- Rebuild specific services with no-cache
+  - docker-compose build --no-cache <service1> <service2>
+
+- Run a certain service multiple times in docker-compose (scale)
+  - docker-compose -f docker_compose_file up --scale service_name=num_scale
+
+*example run 3 producers (don't specify name for your service, let docker automatically does)*
+
+ - docker-compose -f docker-compose-producer.yml up --scale producer=3
+ 

@@ -1,0 +1,14 @@
+{
+    "name": "producer",
+    "version": "1.0.0",
+    "description": "Create seperate environment for producer",
+    "main": "src/producer/index.js",
+    "private": false,
+    "scripts": {
+        "start:producer": "node src/producer/index.js"
+    },
+    "dependencies": {
+        "dotenv": "^10.0.0",
+        "winston": "^3.3.3"
+    }
+}
