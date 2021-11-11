@@ -9,17 +9,18 @@ WORKDIR /app
 
 # packages and .ENV
 # use seperated package.json
-COPY ./resource/consumer/package.json . 
-COPY .env .
+COPY ./resource/consumer/package.json ./
+COPY .env ./
+
 RUN npm install
 
 # tools
-COPY ./src/tools ./src/tools
+COPY ./src/tools ./src/tools/
 # all shared source files
-COPY ./src/*.* ./src
+COPY ./src/*.* ./src/
 
 # related source
-COPY ./src/consumer ./src/consumer
+COPY ./src/consumer ./src/consumer/
 
 # commands
 CMD ["node", "src/consumer/index.js"]

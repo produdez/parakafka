@@ -8,19 +8,18 @@ FROM node:12-alpine
 WORKDIR /app
 
 # packages and .ENV
-# COPY package*.json .
 # use seperated package.json
-COPY ./resource/producer/package.json . 
-COPY .env .
+COPY ./resource/producer/package.json ./ 
+COPY .env ./
 RUN npm install
 
 # tools
-COPY ./src/tools ./src/tools
+COPY ./src/tools ./src/tools/
 # all shared source files
-COPY ./src/*.* ./src
+COPY ./src/*.* ./src/
 
 # related source
-COPY ./src/producer ./src/producer
+COPY ./src/producer ./src/producer/
 
 # commands
 CMD ["node", "src/producer/index.js"]

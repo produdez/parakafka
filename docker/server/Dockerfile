@@ -11,19 +11,19 @@ WORKDIR ./app
 RUN pwd
 RUN ls
 
-# packages and .ENV
+# packages and .env
 # use seperated package.json
-COPY ./resource/server/package.json . 
-COPY .env .
+COPY ./resource/server/package.json ./ 
+COPY .env ./
 RUN npm install
 
 # tools
-COPY ./src/tools ./src/tools
+COPY ./src/tools ./src/tools/
 # all shared source files
-COPY ./src/*.* ./src
+COPY ./src/*.* ./src/
 
 # related source
-COPY ./src/server ./src/server
+COPY ./src/server ./src/server/
 
 # test print
 RUN pwd
