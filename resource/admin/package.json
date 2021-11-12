@@ -1,0 +1,15 @@
+{
+    "name": "producer",
+    "version": "1.0.0",
+    "description": "Create seperate environment for admin",
+    "main": "src/admin/index.js",
+    "private": false,
+    "scripts": {
+        "start:admin": "node src/admin/index.js"
+    },
+    "dependencies": {
+        "dotenv": "^10.0.0",
+        "winston": "^3.3.3",
+        "kafkajs": "^1.14.0"
+    }
+}
