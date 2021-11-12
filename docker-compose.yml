@@ -141,7 +141,7 @@ services:
       - consumer-net
     image: mongo
     ports:
-      - '27017:27017'
+      - '27017:27017' # NOTE: use for access for plotting
     restart: always
     container_name: mongo
   
