@@ -2,8 +2,8 @@
 version: '2'
 services:
   zookeeper:
-    # networks:
-    #   - kafka-net
+    networks:
+      - kafka-net
     image: confluentinc/cp-zookeeper:5.0.0
     container_name: zookeeper
     environment:
@@ -11,8 +11,8 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
 
   kafka:
-    # networks:
-    #   - kafka-net
+    networks:
+      - kafka-net
     #   - consumer-net
     image: confluentinc/cp-kafka:5.0.0
     container_name: kafka
@@ -34,8 +34,8 @@ services:
       KAFKA_LOG4J_LOGGERS: 'kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO'
       CONFLUENT_SUPPORT_METRICS_ENABLE: 'false'
   web-hook-server:
-    # networks:
-    #   - kafka-net
+    networks:
+      - kafka-net
     build:
       context: .
       dockerfile: ./docker/server/Dockerfile
@@ -54,3 +54,7 @@ services:
     restart: always
     environment:
       - BOOTSTRAP_BROKERS=kafka:9092
+networks:
+  kafka-net:
+    driver: bridge
+  
