@@ -13,7 +13,7 @@ services:
   kafka:
     networks:
       - kafka-net
-      - consumer-net
+      # - consumer-net
     image: confluentinc/cp-kafka:5.0.0
     container_name: kafka
     labels:
@@ -37,7 +37,7 @@ services:
   kafka1:
     networks:
       - kafka-net
-      - consumer-net
+      # - consumer-net
     image: confluentinc/cp-kafka:5.0.0
     container_name: kafka1
     labels:
@@ -61,7 +61,7 @@ services:
   kafka2:
     networks:
       - kafka-net
-      - consumer-net
+      # - consumer-net
     image: confluentinc/cp-kafka:5.0.0
     container_name: kafka2
     labels:
@@ -143,17 +143,15 @@ services:
       - REPLICATION_FACTOR=2
 
   mongo:
-    networks:
-      - consumer-net
     image: mongo
-    ports:
-      - '27017:27017' # NOTE: use for access for plotting
+    # networks:
+    #   - consumer-net
+    # ports:
+    #   - '27017:27017' # NOTE: use for access for plotting
+    network_mode: host
     restart: always
     container_name: mongo
 
 networks:
   kafka-net:
-    driver: bridge
-  
-  consumer-net:
     driver: bridge

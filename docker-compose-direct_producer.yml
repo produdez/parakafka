@@ -1,6 +1,6 @@
 version: '2'
 services:
-  producer:
+  direct-producer:
     build:
       context: .
       dockerfile: ./docker/direct_producer/Dockerfile
