@@ -7,5 +7,7 @@ services:
       args:
         tag: parakafka/producer
         progress: plain
+    deploy:
+      replicas: 3
     restart: always
     network_mode: host

@@ -43,11 +43,11 @@ const hook_url =
   (process.env.server_url || 'http://localhost:3000') + app.mount;
 
 const producer = {
-  producer_id: process.env.PRODUCER_ID || 'parakafka',
+  producer_id: crypto.randomUUID(),
   secret: app.secret,
   topic: app.topic,
   url: hook_url,
-  producer_interval: process.env.PRODUCER_INTERVAL || 3000
+  producer_interval: process.env.PRODUCER_INTERVAL || 3000,
 };
 
 const processor = {
