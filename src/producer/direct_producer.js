@@ -28,7 +28,7 @@ async function send_data(producer, config) {
   topic = 'test-topic';
   message = JSON.stringify({
     data: data,
-    // partition: partition,  //auto partitioning
+    // partition: partition,  
     topic: topic,
   });
 
@@ -38,12 +38,12 @@ async function send_data(producer, config) {
       messages: [
         {
           value: message,
-          partition: partition,
+          // partition: partition, //auto partitioning
         },
       ],
     });
     logger.info(
-      `Published message of topic: ${topic}, to partition: ${partition} `,
+      `prod ${producer_id} message of topic: ${topic}, with message: ${message} `,
       responses
     );
   } catch (error) {
