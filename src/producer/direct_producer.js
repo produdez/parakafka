@@ -5,9 +5,8 @@ const { v4: uuidv4 } = require('uuid');
 
 const MAX_PARTITION = 3;
 
-module.exports = async ({ kafka, config }) => {
+module.exports = async ({ producer, config }) => {
   logger.warn('Creating Producer!');
-  const producer = kafka.producer(config.producer);
   const producer_interval = config.producer_interval;
   const producer_id = uuidv4(); //create uid at runtime
   logger.warn(

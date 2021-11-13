@@ -6,7 +6,7 @@ const createProducer = require('./direct_producer');
 const kafka = new Kafka(config.kafka);
 
 const main = async () => {
-  const producer = await createProducer({ kafka, config });
+  const producer = await createProducer({ producer: kafka.producer(), config });
   logger.info('Producer Connected!');
 
   const shutdown = async () => {
