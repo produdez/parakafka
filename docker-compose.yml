@@ -82,28 +82,28 @@ services:
       KAFKA_LOG4J_LOGGERS: 'kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO'
       CONFLUENT_SUPPORT_METRICS_ENABLE: 'false'
 
-  web-hook-server:
-    networks:
-      - kafka-net
-    build:
-      context: .
-      dockerfile: ./docker/server/Dockerfile
-      args:
-        tag: parakafka/server
-        progress: plain
+  # web-hook-server:
+  #   networks:
+  #     - kafka-net
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/server/Dockerfile
+  #     args:
+  #       tag: parakafka/server
+  #       progress: plain
 
-    container_name: web-hook-server
-    depends_on:
-      - zookeeper
-      - kafka
-      - kafka1
-      - kafka2
-      - admin
-    ports:
-      - '3000:3000'
-    restart: always
-    environment:
-      - BOOTSTRAP_BROKERS=kafka:9092 kafka1:9093 kafka2:9094
+  #   container_name: web-hook-server
+  #   depends_on:
+  #     - zookeeper
+  #     - kafka
+  #     - kafka1
+  #     - kafka2
+  #     - admin
+  #   ports:
+  #     - '3000:3000'
+  #   restart: always
+  #   environment:
+  #     - BOOTSTRAP_BROKERS=kafka:9092 kafka1:9093 kafka2:9094
 
   kafka-ui:
     networks:

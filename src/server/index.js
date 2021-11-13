@@ -1,41 +1,24 @@
-const { Kafka } = require("kafkajs");
-const config = require("../config");
+const { Kafka } = require('kafkajs');
+const config = require('../config');
 const logger = config.logger;
-const createApp = require("./app");
+const createProducer = require('./producer');
 
-const client = new Kafka(config.kafka);
-const producer = client.producer();
-
+const kafka = new Kafka(config.kafka);
 
 const main = async () => {
-  //? wait until producer connects to kafka
-  await producer.connect();
-
-
-  const app = createApp({ producer, config: config.app });
-  //? create app and listen on port for web hooks
-  const server = app.listen(config.server.port, (error) => {
-    if (error != null) {
-      logger.error(error)
-      throw error;
-    }
-
-    logger.info(`Server is listening on port ${config.server.port}`);
-  });
+  const consumer = await createProducer({ kafka, config });
+  logger.info('Producer Connected!');
 
   const shutdown = async () => {
-    await server.close();
-    await producer.disconnect();
+    await consumer.disconnect();
   };
 
   return shutdown;
 };
 
+const signalTraps = ['SIGTERM', 'SIGINT', 'SIGUSR2'];
 
-const signalTraps = ["SIGTERM", "SIGINT", "SIGUSR2"];
-
-// ? Run until shutdown and log the shutdown!
-main() 
+main()
   .then(async (shutdown) => {
     signalTraps.forEach((signal) => {
       process.on(signal, async () => {
@@ -44,13 +27,13 @@ main()
           await shutdown();
           process.exit(0);
         } catch (error) {
-          logger.error("Error during shutdown", error);
+          logger.error('Error during shutdown', error);
           process.exit(1);
         }
       });
     });
   })
   .catch((error) => {
-    logger.error("Error during startup", error);
+    logger.error('Error during startup', error);
     process.exit(1);
   });
