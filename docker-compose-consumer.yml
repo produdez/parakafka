@@ -13,7 +13,7 @@ services:
     networks: 
       - consumer-net
     environment:
-      BOOTSTRAP_BROKERS: kafka:9092 kafka1:9093 kafka2:9094 #note add if needed
+      BOOTSTRAP_BROKERS: kafka:29092 kafka1:29092 kafka2:29092 #note add if needed
       KAFKA_GROUP_ID: test-group
       MONGO_URL: mongodb://mongo
   

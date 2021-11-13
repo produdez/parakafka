@@ -1,13 +1,13 @@
 const config = require('../config');
+const { Kafka } = require("kafkajs");
 const logger = config.logger;
-const createProducer = require('./producer');
+const createProducer = require('./direct_producer');
 
 // Not needed since producer uses web-hook and know nothing about kafka
-const { Kafka } = require("kafkajs");
 const kafka = new Kafka(config.kafka);
 
 const main = async () => {
-  const consumer = await createProducer({ config: config.producer });
+  const consumer = await createProducer({kafka, config: config.producer });
   logger.info('Producer Connected!');
 
   const shutdown = async () => {

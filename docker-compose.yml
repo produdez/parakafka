@@ -27,7 +27,7 @@ services:
       KAFKA_BROKER_ID: 0
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://kafka:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_LOG4J_ROOT_LOGLEVEL: INFO
@@ -51,7 +51,7 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka1:29092,PLAINTEXT_HOST://kafka1:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka1:29092,PLAINTEXT_HOST://localhost:9093
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_LOG4J_ROOT_LOGLEVEL: INFO
@@ -75,7 +75,7 @@ services:
       KAFKA_BROKER_ID: 2
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka2:29092,PLAINTEXT_HOST://kafka2:9094
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka2:29092,PLAINTEXT_HOST://localhost:9094
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_LOG4J_ROOT_LOGLEVEL: INFO
@@ -83,8 +83,6 @@ services:
       CONFLUENT_SUPPORT_METRICS_ENABLE: 'false'
 
   web-hook-server:
-    networks:
-      - kafka-net
     build:
       context: .
       dockerfile: ./docker/server/Dockerfile
@@ -99,31 +97,30 @@ services:
       - kafka1
       - kafka2
       - admin
-    ports:
-      - '3000:3000'
     restart: always
+    network_mode: host
     environment:
-      - BOOTSTRAP_BROKERS=kafka:9092 kafka1:9093 kafka2:9094
+      - BOOTSTRAP_BROKERS=localhost:9092 localhost:9093 localhost:9094
 
-  kafka-ui:
-    networks:
-      - kafka-net
-    image: provectuslabs/kafka-ui
-    container_name: kafka-ui
-    depends_on:
-      - kafka
-      - kafka1
-      - kafka2
-      - zookeeper
-      - admin
-    ports:
-      - '8080:8080'
-    restart: always
-    environment:
-      KAFKA_CLUSTERS_0_NAME: kafka
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092, kafka1:29092, kafka2:29092
-      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
-      KAFKA_CLUSTERS_0_READONLY: 'false'
+  # kafka-ui:
+  #   networks:
+  #     - kafka-net
+  #   image: provectuslabs/kafka-ui
+  #   container_name: kafka-ui
+  #   depends_on:
+  #     - kafka
+  #     - kafka1
+  #     - kafka2
+  #     - zookeeper
+  #     - admin
+  #   ports:
+  #     - '8080:8080'
+  #   restart: always
+  #   environment:
+  #     KAFKA_CLUSTERS_0_NAME: kafka
+  #     KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092, kafka1:29092, kafka2:29092
+  #     KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+  #     KAFKA_CLUSTERS_0_READONLY: 'false'
 
   admin:
     build:
