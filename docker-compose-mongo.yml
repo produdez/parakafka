@@ -1,0 +1,7 @@
+version: '2'
+services:
+  mongo:
+    image: mongo
+    network_mode: host
+    restart: always
+    container_name: mongo
