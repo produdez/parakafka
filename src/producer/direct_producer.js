@@ -28,7 +28,7 @@ async function send_data(producer, config) {
   topic = 'test-topic';
   message = JSON.stringify({
     data: data,
-    // partition: partition,  
+    partition: 0,  
     topic: topic,
   });
 
@@ -38,7 +38,8 @@ async function send_data(producer, config) {
       messages: [
         {
           value: message,
-          // partition: partition, //auto partitioning
+          timestamp: Date.now(),
+          partition: 0, //auto partitioning
         },
       ],
     });
