@@ -1,9 +1,9 @@
 const logger = require('../config').logger;
-const http = require('http');
-const crypto = require('crypto');
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = async ({ config }) => {
   const producer_interval = config.producer_interval;
+  const producer_id = uuidv4(); //create uid at runtime
 
   logger.warn(
     `Creating Producer ${config.producer_id}, data send interval is: ${producer_interval}`
@@ -11,7 +11,7 @@ module.exports = async ({ config }) => {
 
   // * random number sent every interval
   return setInterval(() => {
-    send_data(config);
+    send_data({ producer_id: producer_id, ...config });
   }, producer_interval);
 };
 
@@ -67,6 +67,9 @@ function random_normal_box_muller() {
   while (v === 0) v = Math.random();
   return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
 }
+
+const http = require('http');
+const crypto = require('crypto');
 
 async function send_data_to_web_hook(payload, url, secret) {
   if (!secret || !payload) {
