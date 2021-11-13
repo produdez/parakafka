@@ -16,14 +16,14 @@ module.exports = async ({ kafka, config }) => {
   await producer.connect();
 
   setInterval(() => {
-    send_data(producer, config);
+    send_data(producer, { producer_id, ...config });
   }, producer_interval);
 
   return producer;
 };
 
 async function send_data(producer, config) {
-  data = gen_data({ producer_id, ...config });
+  data = gen_data(config);
   partition = choose_partition();
   topic = 'test-topic';
   message = JSON.stringify({
