@@ -98,6 +98,7 @@ services:
       - kafka
       - kafka1
       - kafka2
+      - admin
     ports:
       - '3000:3000'
     restart: always
@@ -114,6 +115,7 @@ services:
       - kafka1
       - kafka2
       - zookeeper
+      - admin
     ports:
       - '8080:8080'
     restart: always
@@ -131,10 +133,17 @@ services:
         tag: parakafka/admin
         progress: plain
     container_name: admin
+    depends_on:
+      - kafka
+      - kafka1
+      - kafka2
+      - zookeeper
     networks: 
       - kafka-net 
     environment:
-      - BOOTSTRAP_BROKERS=kafka:29092 kafka1:29092
+      - BOOTSTRAP_BROKERS=kafka:29092 kafka1:29092 kafka2:29092
+      - NUMBER_OF_PARTITION=3
+      - REPLICATION_FACTOR=2
 
   mongo:
     networks:
@@ -145,37 +154,55 @@ services:
     restart: always
     container_name: mongo
   
-  consumer:
-    build:
-      context: .
-      dockerfile: ./docker/consumer/Dockerfile
-      args:
-        tag: parakafka/consumer
-        progress: plain
-    container_name: consumer_1
-    restart: always
-    networks: 
-      - consumer-net
-    environment:
-      BOOTSTRAP_BROKERS: kafka:9092 kafka1:9093 #note add if needed
-      KAFKA_GROUP_ID: test-group
-      MONGO_URL: mongodb://mongo
+  # consumer:
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/consumer/Dockerfile
+  #     args:
+  #       tag: parakafka/consumer
+  #       progress: plain
+  #   container_name: consumer_1
+  #   depends_on:
+  #     - kafka
+  #     - kafka1
+  #     - kafka2
+  #     - zookeeper
+  #     - admin
+  #     - mongo
+  #     - kafka-ui
+  #     - web-hook-server
+  #   restart: always
+  #   networks: 
+  #     - consumer-net
+  #   environment:
+  #     BOOTSTRAP_BROKERS: kafka:9092 kafka1:9093 kafka2:9094 #note add if needed
+  #     KAFKA_GROUP_ID: test-group
+  #     MONGO_URL: mongodb://mongo
   
-  consumer1:
-    build:
-      context: .
-      dockerfile: ./docker/consumer/Dockerfile
-      args:
-        tag: parakafka/consumer
-        progress: plain
-    container_name: consumer_2
-    restart: always
-    networks: 
-      - consumer-net
-    environment:
-      BOOTSTRAP_BROKERS: kafka:9092 kafka1:9093
-      KAFKA_GROUP_ID: test-group
-      MONGO_URL: mongodb://mongo
+  # consumer1:
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/consumer/Dockerfile
+  #     args:
+  #       tag: parakafka/consumer
+  #       progress: plain
+  #   container_name: consumer_2
+  #   depends_on:
+  #     - kafka
+  #     - kafka1
+  #     - kafka2
+  #     - zookeeper
+  #     - admin
+  #     - kafka-ui
+  #     - mongo
+  #     - web-hook-server
+  #   restart: always
+  #   networks: 
+  #     - consumer-net
+  #   environment:
+  #     BOOTSTRAP_BROKERS: kafka:9092 kafka1:9093 kafka2:9094
+  #     KAFKA_GROUP_ID: test-group
+  #     MONGO_URL: mongodb://mongo
 
 networks:
   kafka-net:

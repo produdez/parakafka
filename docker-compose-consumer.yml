@@ -1,0 +1,21 @@
+version: '3'
+services:
+  consumer:
+    build:
+      context: .
+      dockerfile: ./docker/consumer/Dockerfile
+      args:
+        tag: parakafka/consumer
+        progress: plain
+    deploy:
+      replicas: 3
+    restart: always
+    networks: 
+      - consumer-net
+    environment:
+      BOOTSTRAP_BROKERS: kafka:9092 kafka1:9093 kafka2:9094 #note add if needed
+      KAFKA_GROUP_ID: test-group
+      MONGO_URL: mongodb://mongo
+  
+networks:
+  consumer-net:
