@@ -24,11 +24,11 @@ module.exports = async ({ kafka, config }) => {
 
 async function send_data(producer, config) {
   data = gen_data(config);
-  partition = choose_partition();
+  partition = choose_partition(); //auto partitioning
   topic = 'test-topic';
   message = JSON.stringify({
     data: data,
-    // partition: partition, auto partitioning
+    // partition: partition,  //auto partitioning
     topic: topic,
   });
 
