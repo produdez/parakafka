@@ -14,4 +14,4 @@ services:
     environment:
       BOOTSTRAP_BROKERS: localhost:9095 localhost:9096 localhost:9097 #note add if needed
       KAFKA_GROUP_ID: test-group
-      MONGO_URL: mongodb://10.1.8.2
+      MONGO_URL: mongodb://localhost
