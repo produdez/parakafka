@@ -28,9 +28,11 @@ async function send_data(producer, config) {
   topic = 'test-topic';
   message = JSON.stringify({
     data: data,
-    partition: 0,  
+    partition: 0,
     topic: topic,
   });
+
+  logger.info(`Message created: ${message} `);
 
   try {
     const responses = await producer.send({
