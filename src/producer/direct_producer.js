@@ -46,7 +46,7 @@ async function send_data(producer, config) {
       ],
     });
     logger.info(
-      `prod ${producer_id} message of topic: ${topic}, with message: ${message} `,
+      `prod ${config.producer_id} message of topic: ${topic}, with message: ${message} `,
       responses
     );
   } catch (error) {
