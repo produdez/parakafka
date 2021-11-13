@@ -9,6 +9,7 @@
     },
     "dependencies": {
         "dotenv": "^10.0.0",
-        "winston": "^3.3.3"
+        "winston": "^3.3.3",
+        "kafkajs": "^1.14.0"
     }
 }

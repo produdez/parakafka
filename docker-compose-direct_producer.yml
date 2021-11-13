@@ -1,0 +1,13 @@
+version: '2'
+services:
+  producer:
+    build:
+      context: .
+      dockerfile: ./docker/direct_producer/Dockerfile
+      args:
+        tag: parakafka/producer
+        progress: plain
+    restart: always
+    network_mode: host
+    environment:
+      - BOOTSTRAP_BROKERS=localhost:9092 localhost:9093 localhost:9093
