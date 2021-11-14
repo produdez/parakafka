@@ -10,4 +10,4 @@ services:
     restart: always
     network_mode: host
     environment:
-      - BOOTSTRAP_BROKERS=localhost:9092 localhost:9093 localhost:9094
+      - BOOTSTRAP_BROKERS=10.1.8.3:9092 10.1.8.3:9093 10.1.8.3:9094

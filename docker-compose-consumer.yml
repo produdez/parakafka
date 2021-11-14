@@ -12,6 +12,6 @@ services:
     restart: always
     network_mode: host
     environment:
-      BOOTSTRAP_BROKERS: localhost:9095 localhost:9096 localhost:9097 #note add if needed
+      BOOTSTRAP_BROKERS: 10.1.8.3:9095 10.1.8.3:9096 10.1.8.3:9097 #note add if needed
       KAFKA_GROUP_ID: test-group
-      MONGO_URL: mongodb://localhost
+      MONGO_URL: mongodb://10.1.8.2
