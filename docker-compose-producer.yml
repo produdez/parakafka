@@ -9,3 +9,5 @@ services:
         progress: plain
     restart: always
     network_mode: host
+    environment:
+      server_url=: http://10.1.8.3:3000

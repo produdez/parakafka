@@ -104,7 +104,6 @@ services:
     network_mode: host
     environment:
       BOOTSTRAP_BROKERS: localhost:9092 localhost:9093 localhost:9094
-      server_url=: http://10.1.8.3:3000
 
   # kafka-ui:
   #   networks:
