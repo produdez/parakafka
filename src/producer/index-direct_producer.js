@@ -1,5 +1,5 @@
 const config = require('../config');
-const { Kafka } = require("kafkajs");
+const { Kafka } = require('kafkajs');
 const logger = config.logger;
 const createProducer = require('./direct_producer');
 
@@ -7,7 +7,7 @@ const createProducer = require('./direct_producer');
 const kafka = new Kafka(config.kafka);
 
 const main = async () => {
-  const consumer = await createProducer({kafka, config: config.producer });
+  const consumer = await createProducer({ kafka, config: config.producer });
   logger.info('Producer Connected!');
 
   const shutdown = async () => {
@@ -17,7 +17,7 @@ const main = async () => {
   return shutdown;
 };
 
-const signalTraps = ["SIGTERM", "SIGINT", "SIGUSR2"];
+const signalTraps = ['SIGTERM', 'SIGINT', 'SIGUSR2'];
 
 main()
   .then(async (shutdown) => {
