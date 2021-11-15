@@ -3,7 +3,7 @@ require('./env_setup');
 
 // ! THESE ARE ALL THE MODULES and TOOLS
 
-const server = { port: process.env.PORT || 3000 }
+const server = { port: process.env.PORT || 3000 };
 
 let env_brokers = process.env.BOOTSTRAP_BROKERS.split(' ');
 const brokers =
@@ -19,46 +19,45 @@ const kafka = {
       ? {
           username: process.env.KAFKA_USERNAME,
           password: process.env.KAFKA_PASSWORD,
-          mechanism: 'plain'
+          mechanism: 'plain',
         }
       : null,
-}
+};
 
 const admin = {
   numberOfPartitions: process.env.NUMBER_OF_PARTITION || 2,
   replicationFactor: process.env.REPLICATION_FACTOR || 2,
-}
+};
 
 const consumer = {
   groupId: process.env.KAFKA_GROUP_ID || 'parakafka',
-}
+};
 
 const app = {
   secret: process.env.HOOK_SECRET,
   topic: process.env.TOPIC || 'test-topic',
   mount: '/hook',
-}
+};
 
 const hook_url =
   (process.env.server_url || 'http://localhost:3000') + app.mount;
 
 const producer = {
-  producer_id: process.env.PRODUCER_ID || 'parakafka',
   secret: app.secret,
   topic: app.topic,
   url: hook_url,
-  producer_interval: process.env.PRODUCER_INTERVAL || 3000
+  producer_interval: process.env.PRODUCER_INTERVAL || 3000,
 };
 
 const processor = {
   topic: app.topic,
-}
+};
 
 const db = {
   uri: process.env.MONGO_URL || 'mongodb://localhost',
   db_name: 'test',
   collection_name: 'test_collection',
-}
+};
 
 const logger = require('./tools/winston_logger');
 
@@ -72,4 +71,4 @@ module.exports = {
   db,
   logger,
   admin,
-}
+};
