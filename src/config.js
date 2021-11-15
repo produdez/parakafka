@@ -43,7 +43,6 @@ const hook_url =
   (process.env.server_url || 'http://localhost:3000') + app.mount;
 
 const producer = {
-  producer_id: process.env.PRODUCER_ID || 'parakafka',
   secret: app.secret,
   topic: app.topic,
   url: hook_url,
