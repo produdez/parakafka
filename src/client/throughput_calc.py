@@ -38,7 +38,6 @@ def calc(data, throughput_interval, runtime_id, output_folder, collection):
     for index, prod_id in enumerate(prod_id_list):
         dataListOfProd = [i for i in list(collection.find({"producer_id": prod_id}))]
         toTestList = [i['sequence_num'] for i in dataListOfProd]
-        print(f'PRODUCER {index+1}. {toTestList}')
         print(f'PRODUCER {index+1}. First sent at {datetime.fromtimestamp(dataListOfProd[0]["timestamp_producer"]/1000)}, loss {countLoss(toTestList)} packet(s)' )
     print('<>______END COUNT LOSS__________\n')
 
@@ -54,6 +53,7 @@ def process_data(data):
 
 def countLoss(seqList):
     seqList.sort()
+    print(f'DATA. {seqList}')
     l = len(seqList)
     i = 0
     numLoss = 0
