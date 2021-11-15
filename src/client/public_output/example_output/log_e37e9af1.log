@@ -1,0 +1,63 @@
+runtime_id: e37e9af1
+Test choice: 0
+Runtime arguments: Namespace(collection='test_collection', column='data', output='output', sub_folder=True, runtime_id='e37e9af1', plot_collection=True, log=True, throughput_interval=10000)
+....................................
+Executing:  throughput_calc.calc(data,*[10000, 'e37e9af1', 'output/e37e9af1'])
+Calculating throughput for:  ['timestamp_kafka', 'timestamp_db', 'timestamp_producer']
+Throughput interval:  10000 ms
+<>____________________
+Throughput stats for: timestamp_kafka
+count    73.000000
+mean      0.331507
+std       0.046776
+min       0.300000
+25%       0.300000
+50%       0.300000
+75%       0.400000
+max       0.400000
+Name: timestamp_kafka, dtype: float64
+plotted:  output/e37e9af1/lineplot_thoughput_timestamp_kafka_e37e9af1.png
+<>____________________
+Throughput stats for: timestamp_db
+count    73.000000
+mean      0.331507
+std       0.046776
+min       0.300000
+25%       0.300000
+50%       0.300000
+75%       0.400000
+max       0.400000
+Name: timestamp_db, dtype: float64
+plotted:  output/e37e9af1/lineplot_thoughput_timestamp_db_e37e9af1.png
+<>____________________
+Throughput stats for: timestamp_producer
+count    73.000000
+mean      0.331507
+std       0.046776
+min       0.300000
+25%       0.300000
+50%       0.300000
+75%       0.400000
+max       0.400000
+Name: timestamp_producer, dtype: float64
+plotted:  output/e37e9af1/lineplot_thoughput_timestamp_producer_e37e9af1.png
+....................................
+Executing:  example_test.main_func(data,*[1, 'string', True, 'e37e9af1', 'output/e37e9af1'])
+Running example_test
+Default args: 
+data:                          _id       topic  partition  ...      data  timestamp_producer  producer_id
+0  61829da0b001a2c70fac28b6  test-topic          0  ...  0.314683        1.635950e+12    parakafka
+1  61829da3b001a2c70fac28b7  test-topic          0  ...  0.240577        1.635950e+12    parakafka
+2  61829da6b001a2c70fac28b8  test-topic          0  ...  1.071590        1.635950e+12    parakafka
+3  61829da9b001a2c70fac28b9  test-topic          0  ... -1.587981        1.635950e+12    parakafka
+4  61829dacb001a2c70fac28ba  test-topic          0  ... -1.661553        1.635950e+12    parakafka
+
+[5 rows x 8 columns]
+runtime_id:  e37e9af1
+output_folder:  output/e37e9af1
+Other args:  1 string True
+plotted:  output/e37e9af1/lineplot_test_plot_e37e9af1.png
+....................................
+Plotting histogram of data
+plotted:  output/e37e9af1/histplot_data_test_collection_e37e9af1.png
+....................................
