@@ -53,7 +53,7 @@ def choose_test():
     return choice
 
 # ! IMPORTANT ***
-def run_one_test(test_number, data, args, output_folder, runtime_id):
+def run_one_test(test_number, data, args, output_folder, runtime_id, collection):
     test_name = TESTS[test_number]
 
     #* set variables for function
@@ -77,7 +77,7 @@ def run_one_test(test_number, data, args, output_folder, runtime_id):
     argv['runtime_id'] = runtime_id
     argv['output_folder'] = output_folder
     # * calling (note that data is defaulted first arg)
-    exec_string = f'{test_name}.{func_name}(data,*{list(argv.values())})'
+    exec_string = f'{test_name}.{func_name}(data,*{list(argv.values())}, collection)'
     print('Executing: ', exec_string)
     exec(exec_string)
 
@@ -124,9 +124,9 @@ def main():
     if test_num == 0: #all test
         for num in list(TESTS.keys())[1:]:
             print(LINE_SEP)
-            run_one_test(num, data, args, output_folder, runtime_id)
+            run_one_test(num, data, args, output_folder, runtime_id, collection)
     else: # run a specific test
-        run_one_test(test_num, data, args, output_folder, runtime_id)
+        run_one_test(test_num, data, args, output_folder, runtime_id, collection)
     print(LINE_SEP)
 
     # * plot collection

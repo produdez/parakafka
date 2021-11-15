@@ -3,3 +3,6 @@ node_modules
 
 .bin
 .local_backup
+
+**/output
+**/__pycache__

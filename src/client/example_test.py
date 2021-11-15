@@ -1,7 +1,7 @@
 #for plotting
 from utils import plot_util
 
-def main_func(data, extra_arg1, extra_arg2, extra_arg3, runtime_id, output_folder):
+def main_func(data, extra_arg1, extra_arg2, extra_arg3, runtime_id, output_folder, collection):
     print('Running example_test')
     print('Default args: ')
     print('data: ', data.head())
