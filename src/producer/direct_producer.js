@@ -27,12 +27,10 @@ async function send_data(producer, config) {
   // partition = choose_partition(); //auto partitioning
   topic = 'test-topic';
   message = JSON.stringify({
-    data: data,
+    ...data,
     /// partition: partition,
     topic: topic,
   });
-
-  logger.info(`Message created: ${message} `);
 
   try {
     const responses = await producer.send({

@@ -8,14 +8,10 @@ services:
         tag: parakafka/consumer
         progress: plain
     deploy:
-      replicas: 3
+      replicas: 1
     restart: always
-    networks: 
-      - consumer-net
+    network_mode: host
     environment:
-      BOOTSTRAP_BROKERS: kafka:29092 kafka1:29092 kafka2:29092 #note add if needed
+      BOOTSTRAP_BROKERS: localhost:9092 localhost:9093 localhost:9094 #note add if needed
       KAFKA_GROUP_ID: test-group
-      MONGO_URL: mongodb://mongo
-  
-networks:
-  consumer-net:
+      MONGO_URL: mongodb://localhost

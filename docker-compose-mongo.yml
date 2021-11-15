@@ -1,0 +1,15 @@
+version: '2'
+services:
+  mongo:
+    image: mongo
+    # network_mode: host
+    networks:
+      - mongo-net
+    ports:
+      - '27017:27017' # NOTE: use for access for plotting
+    restart: always
+    container_name: mongo
+
+networks:
+  mongo-net:
+    driver: bridge

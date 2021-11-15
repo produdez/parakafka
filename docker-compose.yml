@@ -13,7 +13,7 @@ services:
   kafka:
     networks:
       - kafka-net
-      - consumer-net
+    # - consumer-net
     image: confluentinc/cp-kafka:5.0.0
     container_name: kafka
     labels:
@@ -37,7 +37,7 @@ services:
   kafka1:
     networks:
       - kafka-net
-      - consumer-net
+    #  - consumer-net
     image: confluentinc/cp-kafka:5.0.0
     container_name: kafka1
     labels:
@@ -61,7 +61,7 @@ services:
   kafka2:
     networks:
       - kafka-net
-      - consumer-net
+    #  - consumer-net
     image: confluentinc/cp-kafka:5.0.0
     container_name: kafka2
     labels:
@@ -82,25 +82,25 @@ services:
       KAFKA_LOG4J_LOGGERS: 'kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO'
       CONFLUENT_SUPPORT_METRICS_ENABLE: 'false'
 
-  web-hook-server:
-    build:
-      context: .
-      dockerfile: ./docker/server/Dockerfile
-      args:
-        tag: parakafka/server
-        progress: plain
+  # web-hook-server:
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/server/Dockerfile
+  #     args:
+  #       tag: parakafka/server
+  #       progress: plain
 
-    container_name: web-hook-server
-    depends_on:
-      - zookeeper
-      - kafka
-      - kafka1
-      - kafka2
-      - admin
-    restart: always
-    network_mode: host
-    environment:
-      - BOOTSTRAP_BROKERS=localhost:9092 localhost:9093 localhost:9094
+  #   container_name: web-hook-server
+  #   depends_on:
+  #     - zookeeper
+  #     - kafka
+  #     - kafka1
+  #     - kafka2
+  #     - admin
+  #   restart: always
+  #   network_mode: host
+  #   environment:
+  #     - BOOTSTRAP_BROKERS=localhost:9092 localhost:9093 localhost:9094
 
   # kafka-ui:
   #   networks:
@@ -142,14 +142,14 @@ services:
       - NUMBER_OF_PARTITION=3
       - REPLICATION_FACTOR=2
 
-  mongo:
-    networks:
-      - consumer-net
-    image: mongo
-    ports:
-      - '27017:27017' # NOTE: use for access for plotting
-    restart: always
-    container_name: mongo
+  # mongo:
+  #   networks:
+  #     - consumer-net
+  #   image: mongo
+  #   ports:
+  #     - '27017:27017' # NOTE: use for access for plotting
+  #   restart: always
+  #   container_name: mongo
 
 networks:
   kafka-net:
