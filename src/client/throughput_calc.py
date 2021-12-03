@@ -63,6 +63,10 @@ def calc(data, throughput_interval, runtime_id, output_folder, collection):
         producer_interval_diff = pd.DataFrame([i['timestamp_producer']
                                                for i in dataListOfProd], columns=[f"interval_change_prod_{index+1}"]).diff().fillna(0)
         print(producer_interval_diff.describe())
+        producer_delay_db = pd.DataFrame([i['timestamp_db']-i['timestamp_producer']
+                                               for i in dataListOfProd], columns=[f"interval_change_prod_{index+1}"])
+        print(producer_interval_diff.describe())
+        print(producer_delay_db.describe())
         plot_util.line_plot(
             producer_interval_diff, f'producer_interval_{index+1}', output_folder, runtime_id)
 
