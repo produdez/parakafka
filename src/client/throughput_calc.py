@@ -44,7 +44,7 @@ def calc(data, throughput_interval, runtime_id, output_folder, collection):
         plot_util.line_plot(
             column, f'delay_{column_name_delay}', output_folder, runtime_id)
 
-    # count loss
+    # count loss and interval statistics
 
     prod_id_list = [i['_id'] for i in list(
         collection.aggregate([{"$group": {"_id": "$producer_id"}}]))]
@@ -58,6 +58,14 @@ def calc(data, throughput_interval, runtime_id, output_folder, collection):
         toTestList = [i['sequence_num'] for i in dataListOfProd]
         print(
             f'PRODUCER {index+1}. First sent at {datetime.fromtimestamp(dataListOfProd[0]["timestamp_producer"]/1000)}, loss {countLoss(toTestList)} packet(s)')
+        print('<>____________________')
+        print('Producer consecutive interval stats')
+        producer_interval_diff = pd.DataFrame([i['timestamp_producer']
+                                               for i in dataListOfProd], columns=[f"interval_change_prod_{index+1}"]).diff().fillna(0)
+        print(producer_interval_diff.describe())
+        plot_util.line_plot(
+            producer_interval_diff, f'producer_interval_{index+1}', output_folder, runtime_id)
+
     print('<>______END COUNT LOSS__________\n')
 
 
