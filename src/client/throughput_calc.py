@@ -59,24 +59,26 @@ def calc(data, throughput_interval, runtime_id, output_folder, collection):
         print(
             f'PRODUCER {index+1}. First sent at {datetime.fromtimestamp(dataListOfProd[0]["timestamp_producer"]/1000)}, loss {countLoss(toTestList)} packet(s)')
         print('<>____________________')
-        print('Producer consecutive interval stats')
         producer_interval_diff = pd.DataFrame([i['timestamp_producer']
                                                for i in dataListOfProd], columns=[f"interval_change_prod_{index+1}"]).diff().fillna(0)
-        producer_delay_db = pd.DataFrame([float(i['timestamp_db'])-float(i['timestamp_kafka'])
-                                          for i in dataListOfProd], columns=[f"producer_delay_db_{index+1}"])
-        producer_kafka_db = pd.DataFrame([float(i['timestamp_kafka'])-float(i['timestamp_producer'])
-                                          for i in dataListOfProd], columns=[f"producer_kafka_db{index+1}"])
+        kafka_db_delay = pd.DataFrame([float(i['timestamp_db'])-float(i['timestamp_kafka'])
+                                       for i in dataListOfProd], columns=[f"kafka_db_delay{index+1}"])
+        kafka_producer_delay = pd.DataFrame([float(i['timestamp_kafka'])-float(i['timestamp_producer'])
+                                             for i in dataListOfProd], columns=[f"kafka_producer_delay{index+1}"])
 
+        print('Producer consecutive interval stats')
         print(producer_interval_diff.describe())
-        print(producer_delay_db.describe())
-        print(producer_kafka_db.describe())
+        print('kafka -> producer delay')
+        print(kafka_producer_delay.describe())
+        print('kafka -> db')
+        print(kafka_db_delay.describe())
 
         plot_util.line_plot(
             producer_interval_diff, f'producer_interval_{index+1}', output_folder, runtime_id)
         plot_util.line_plot(
-            producer_delay_db, f'producer_delay_db{index+1}', output_folder, runtime_id)
+            kafka_db_delay, f'kafka_db_delay{index+1}', output_folder, runtime_id)
         plot_util.line_plot(
-            producer_kafka_db, f'producer_kafka_db{index+1}', output_folder, runtime_id)
+            kafka_producer_delay, f'kafka_producer_delay{index+1}', output_folder, runtime_id)
 
     print('<>______END COUNT LOSS__________\n')
 
