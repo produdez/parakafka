@@ -62,9 +62,9 @@ def calc(data, throughput_interval, runtime_id, output_folder, collection):
         print('Producer consecutive interval stats')
         producer_interval_diff = pd.DataFrame([i['timestamp_producer']
                                                for i in dataListOfProd], columns=[f"interval_change_prod_{index+1}"]).diff().fillna(0)
-        producer_delay_db = pd.DataFrame([i['timestamp_db']-i['timestamp_kafka']
+        producer_delay_db = pd.DataFrame([float(i['timestamp_db'])-float(i['timestamp_kafka'])
                                           for i in dataListOfProd], columns=[f"producer_delay_db_{index+1}"])
-        producer_kafka_db = pd.DataFrame([i['timestamp_kafka']-i['timestamp_producer']
+        producer_kafka_db = pd.DataFrame([float(i['timestamp_kafka'])-float(i['timestamp_producer'])
                                           for i in dataListOfProd], columns=[f"producer_kafka_db{index+1}"])
 
         print(producer_interval_diff.describe())
