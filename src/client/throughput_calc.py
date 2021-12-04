@@ -31,7 +31,7 @@ def calc(data, throughput_interval, runtime_id, output_folder, collection):
         print(throughput.describe())
         # plot
         plot_util.line_plot(
-            column, f'thoughput_{column_name}', output_folder, runtime_id, f'Througput of Kafka (message/second)', 'intervals (10s)', 'message/second')
+            column, f'thoughput_{column_name}', output_folder, runtime_id, f'Througput of {column_name} (message/second)', 'intervals (10s)', 'message/second')
 
     # count loss and interval statistics
 
