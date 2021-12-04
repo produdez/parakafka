@@ -9,7 +9,7 @@ DELAY_COLUMNS = ['delay_producer_kafka', 'delay_kafka_db', 'delay_producer_db']
 
 
 def calc(data, throughput_interval, runtime_id, output_folder, collection):
-    (time_data, delay_data) = process_data(data)
+    time_data = process_data(data)
     print('Calculating throughput for: ', TIME_COLUMNS)
     print('Throughput interval: ', throughput_interval, 'ms')
 
@@ -33,17 +33,6 @@ def calc(data, throughput_interval, runtime_id, output_folder, collection):
         plot_util.line_plot(
             column, f'thoughput_{column_name}', output_folder, runtime_id, f'Througput of Kafka (message/second)', 'intervals (10s)', 'message/second')
 
-    # for column_name_delay in DELAY_COLUMNS:
-    #     column = delay_data[column_name_delay]
-
-    #     # print output
-    #     print('<>____________________')
-    #     print(f'Delay stats for: {column_name_delay}')
-    #     print(column.describe())
-
-    #     plot_util.line_plot(
-    #         column, f'delay_{column_name_delay}', output_folder, runtime_id)
-
     # count loss and interval statistics
 
     prod_id_list = [i['_id'] for i in list(
@@ -61,7 +50,7 @@ def calc(data, throughput_interval, runtime_id, output_folder, collection):
         print('<>____________________')
         producer_interval_diff = pd.DataFrame([i['timestamp_producer']
                                                for i in dataListOfProd], columns=[f"interval_change_prod_{index+1}"]).diff().fillna(0)
-        kafka_db_delay = pd.DataFrame([-(float(i['timestamp_db'])-float(i['timestamp_kafka']))
+        kafka_db_delay = pd.DataFrame([float(i['timestamp_db'])-float(i['timestamp_kafka'])
                                        for i in dataListOfProd], columns=[f"kafka_db_delay{index+1}"])
         kafka_producer_delay = pd.DataFrame([float(i['timestamp_kafka'])-float(i['timestamp_producer'])
                                              for i in dataListOfProd], columns=[f"kafka_producer_delay{index+1}"])
@@ -87,21 +76,10 @@ def process_data(data):
     time_data = data[TIME_COLUMNS]
     time_data = time_data.astype(np.int64)
 
-    # count delay from time_data
-    delay_data = pd.DataFrame(
-        columns=['delay_producer_kafka', 'delay_kafka_db', 'delay_producer_db'])
-
-    delay_data['delay_producer_kafka'] = time_data['timestamp_kafka'] - \
-        time_data['timestamp_producer']
-    delay_data['delay_kafka_db'] = time_data['timestamp_db'] - \
-        time_data['timestamp_kafka']
-    delay_data['delay_producer_db'] = time_data['timestamp_db'] - \
-        time_data['timestamp_kafka']
-
     start_time = time_data.min().min()
     time_data = time_data - start_time
 
-    return (time_data, delay_data)
+    return time_data
 
 
 def countLoss(seqList):
