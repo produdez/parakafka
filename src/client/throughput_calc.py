@@ -31,7 +31,7 @@ def calc(data, throughput_interval, runtime_id, output_folder, collection):
         print(throughput.describe())
         # plot
         plot_util.line_plot(
-            column, f'thoughput_{column_name}', output_folder, runtime_id)
+            column, f'thoughput_{column_name}', output_folder, runtime_id, f'Througput of Kafka (message/second)', 'intervals (10s)', 'message/second')
 
     # for column_name_delay in DELAY_COLUMNS:
     #     column = delay_data[column_name_delay]
@@ -61,7 +61,7 @@ def calc(data, throughput_interval, runtime_id, output_folder, collection):
         print('<>____________________')
         producer_interval_diff = pd.DataFrame([i['timestamp_producer']
                                                for i in dataListOfProd], columns=[f"interval_change_prod_{index+1}"]).diff().fillna(0)
-        kafka_db_delay = pd.DataFrame([float(i['timestamp_db'])-float(i['timestamp_kafka'])
+        kafka_db_delay = pd.DataFrame([-(float(i['timestamp_db'])-float(i['timestamp_kafka']))
                                        for i in dataListOfProd], columns=[f"kafka_db_delay{index+1}"])
         kafka_producer_delay = pd.DataFrame([float(i['timestamp_kafka'])-float(i['timestamp_producer'])
                                              for i in dataListOfProd], columns=[f"kafka_producer_delay{index+1}"])
@@ -74,11 +74,11 @@ def calc(data, throughput_interval, runtime_id, output_folder, collection):
         print(kafka_db_delay.describe())
 
         plot_util.line_plot(
-            producer_interval_diff, f'producer_interval_{index+1}', output_folder, runtime_id)
+            producer_interval_diff, f'producer_interval_{index+1}', output_folder, runtime_id, f'Interval between each message of Producer.{index+1} (ms)', 'seq_num', 'ms')
         plot_util.line_plot(
-            kafka_db_delay, f'kafka_db_delay{index+1}', output_folder, runtime_id)
+            kafka_db_delay, f'kafka_db_delay{index+1}', output_folder, runtime_id, f'Delay from Kafka to DB of Producer.{index+1} (ms)', 'seq_num', 'ms')
         plot_util.line_plot(
-            kafka_producer_delay, f'kafka_producer_delay{index+1}', output_folder, runtime_id)
+            kafka_producer_delay, f'kafka_producer_delay{index+1}', output_folder, runtime_id, f'Delay from Producer to Kafka of Producer.{index+1} (ms)', 'seq_num', 'ms')
 
     print('<>______END COUNT LOSS__________\n')
 

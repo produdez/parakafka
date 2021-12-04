@@ -132,7 +132,8 @@ def main():
     # * plot collection
     if args.plot_collection is True:
         print('Plotting histogram of data')
-        plot_util.hist_plot_collection(data,collection.name,args.column,output_folder, runtime_id)
+        plot_util.hist_plot_collection(data, collection.name, args.column, output_folder,
+                                       runtime_id, f'Histogram of datas from producers, normally distributed', 'ms','data')
         print(LINE_SEP)
 
     # * clean up
