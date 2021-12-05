@@ -2,7 +2,7 @@
 
 # How to run
 
-## Run the complete deployment with Docker
+## Run the complete deployment with Docker on both localhost and HPC private network 
 1. docker-compose -f docker-compose.yml up
 2. docker-compose -f docker-compose-mongo.yml up
 3. docker-compose -f docker-compose-consumer.yml up
