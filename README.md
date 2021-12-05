@@ -6,7 +6,7 @@
 1. docker-compose -f docker-compose.yml up
 2. docker-compose -f docker-compose-mongo.yml up
 3. docker-compose -f docker-compose-consumer.yml up
-4. docker-compose -f docker-compose-direct_producer up
+4. docker-compose -f docker-compose-direct_producer.yml up
 
 ## Install
 1. Docker
